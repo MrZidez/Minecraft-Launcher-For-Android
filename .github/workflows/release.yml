@@ -1,0 +1,90 @@
+name: Build Release APK
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      run: |
+        # Создаем директорию для Android SDK
+        mkdir -p $ANDROID_HOME
+
+        # Скачиваем Command Line Tools
+        wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+        unzip -q commandlinetools-linux-9477386_latest.zip
+        mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+        rm commandlinetools-linux-9477386_latest.zip
+
+        # ЯВНО добавляем в PATH
+        echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+        echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+        
+        # Ждем обновления PATH
+        sleep 2
+
+    - name: Install Android packages
+      run: |
+        # Проверяем доступность sdkmanager
+        which sdkmanager || echo "sdkmanager not found"
+        
+        # Принимаем лицензии
+        yes | sdkmanager --licenses
+
+        # Устанавливаем необходимые компоненты
+        sdkmanager "platforms;android-34"
+        sdkmanager "build-tools;34.0.0"
+        sdkmanager "platform-tools"
+        sdkmanager "cmdline-tools;latest"
+
+    - name: Create local.properties
+      run: |
+        echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+    - name: Build Release APK
+      run: |
+        chmod +x gradlew
+        ./gradlew assembleRelease --no-daemon --stacktrace
+
+    - name: Build Release Bundle
+      run: |
+        ./gradlew bundleRelease --no-daemon --stacktrace
+
+    - name: Upload Release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: minecraft-launcher-release
+        path: app/build/outputs/apk/release/*.apk
+        retention-days: 30
+
+    - name: Upload Release Bundle
+      uses: actions/upload-artifact@v4
+      with:
+        name: minecraft-launcher-bundle
+        path: app/build/outputs/bundle/release/*.aab
+        retention-days: 30
+
+    - name: Verify Release Build
+      run: |
+        echo "=== Проверка релизной сборки ==="
+        echo "APK файлы:"
+        ls -la app/build/outputs/apk/release/
+        echo "Bundle файлы:"
+        ls -la app/build/outputs/bundle/release/
+        echo "=== Размеры файлов ==="
+        du -h app/build/outputs/apk/release/*.apk
+        du -h app/build/outputs/bundle/release/*.aab
