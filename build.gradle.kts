@@ -9,13 +9,7 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url = uri("https://jitpack.io") }
-    }
-}
+// Repositories are defined in settings.gradle.kts
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
