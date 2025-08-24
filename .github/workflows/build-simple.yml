@@ -1,0 +1,50 @@
+name: Build Minecraft Launcher APK (Simple)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Set up Android SDK
+      uses: android-actions/setup-android@v2
+      with:
+        sdk-platform: '33'
+        sdk-build-tools: '33.0.0'
+        sdk-cmdline-tools: 'latest'
+
+    - name: Create local.properties
+      run: |
+        echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+    - name: Build APK
+      run: |
+        chmod +x gradlew
+        ./gradlew assembleDebug --no-daemon --stacktrace
+
+    - name: Upload APK artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: minecraft-launcher-simple
+        path: app/build/outputs/apk/debug/*.apk
+        retention-days: 7
+
+    - name: Verify build
+      run: |
+        echo "=== Проверка сборки ==="
+        ls -la app/build/outputs/apk/debug/
+        echo "=== Размер APK ==="
+        du -h app/build/outputs/apk/debug/*.apk

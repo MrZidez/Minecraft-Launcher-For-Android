@@ -4,7 +4,29 @@
 
 ## 🚀 Доступные Workflows
 
-### 1. **Build Minecraft Launcher APK** (`build.yml`)
+### 1. **Build Minecraft Launcher APK** (`build.yml`) - **ИСПРАВЛЕННЫЙ**
+**Триггеры:**
+- Push в ветки `main` или `master`
+- Ручной запуск (workflow_dispatch)
+
+**Что делает:**
+- Устанавливает JDK 17
+- Настраивает Android SDK с правильной обработкой PATH
+- Собирает debug APK
+- Загружает артефакт
+- Проверяет результат сборки
+
+**Результат:** Debug APK файл доступен для скачивания
+
+**Особенности:** Исправлена проблема с PATH - разделено на два шага с ожиданием обновления
+
+### 2. **Build Minecraft Launcher APK (Alternative)** (`build-alternative.yml`)
+**Триггеры:** Аналогично основному
+**Особенности:** Использует переменные окружения для PATH вместо $GITHUB_PATH
+
+### 3. **Build Minecraft Launcher APK (Simple)** (`build-simple.yml`) - **РЕКОМЕНДУЕТСЯ**
+**Триггеры:** Аналогично основному
+**Особенности:** Использует готовый `android-actions/setup-android@v2` action
 **Триггеры:**
 - Push в ветки `main` или `master`
 - Ручной запуск (workflow_dispatch)
@@ -63,16 +85,44 @@
 ## 🛠 Технические детали
 
 ### Android SDK Setup
-Все workflows автоматически настраивают Android SDK:
-```bash
-# Скачивание Command Line Tools
-wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+Все workflows автоматически настраивают Android SDK с правильной обработкой PATH:
 
-# Установка компонентов
-sdkmanager "platforms;android-33"
-sdkmanager "build-tools;33.0.0"
-sdkmanager "platform-tools"
-sdkmanager "cmdline-tools;latest"
+**Метод 1: Ручная настройка с ожиданием PATH**
+```yaml
+- name: Setup Android SDK
+  run: |
+    mkdir -p $ANDROID_HOME
+    wget -q https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip
+    unzip -q commandlinetools-linux-9477386_latest.zip
+    mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
+    echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+    echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+    sleep 2
+
+- name: Install Android packages
+  run: |
+    which sdkmanager || echo "sdkmanager not found"
+    yes | sdkmanager --licenses
+    sdkmanager "platforms;android-33"
+    sdkmanager "build-tools;33.0.0"
+```
+
+**Метод 2: Использование переменных окружения**
+```yaml
+- name: Install Android packages
+  run: |
+    export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$PATH"
+    yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+```
+
+**Метод 3: Готовый action (рекомендуется)**
+```yaml
+- name: Set up Android SDK
+  uses: android-actions/setup-android@v2
+  with:
+    sdk-platform: '33'
+    sdk-build-tools: '33.0.0'
+    sdk-cmdline-tools: 'latest'
 ```
 
 ### Переменные окружения
@@ -157,6 +207,20 @@ echo $ANDROID_HOME
 # Переустановите SDK
 rm -rf $ANDROID_HOME
 # Запустите workflow заново
+```
+
+#### 2. **sdkmanager не найден (PATH проблема)**
+```bash
+# Проблема: $GITHUB_PATH обновляется асинхронно
+# Решение 1: Добавить sleep и разделить на два шага
+echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+sleep 2
+
+# Решение 2: Использовать полный путь
+$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
+
+# Решение 3: Использовать готовый action
+uses: android-actions/setup-android@v2
 ```
 
 #### 2. **Лицензии не приняты**

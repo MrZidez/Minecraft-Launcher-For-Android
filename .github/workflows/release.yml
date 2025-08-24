@@ -30,10 +30,18 @@ jobs:
         mv cmdline-tools $ANDROID_HOME/cmdline-tools/latest
         rm commandlinetools-linux-9477386_latest.zip
 
-        # Добавляем в PATH
+        # ЯВНО добавляем в PATH
         echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
         echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+        
+        # Ждем обновления PATH
+        sleep 2
 
+    - name: Install Android packages
+      run: |
+        # Проверяем доступность sdkmanager
+        which sdkmanager || echo "sdkmanager not found"
+        
         # Принимаем лицензии
         yes | sdkmanager --licenses
 
