@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Minecraft Official Colors -->
+    <color name="minecraft_green">#54C754</color>
+    <color name="minecraft_dark_green">#2D8E2D</color>
+    <color name="minecraft_light_green">#7ED37E</color>
+    <color name="minecraft_brown">#8B4513</color>
+    <color name="minecraft_dark_brown">#654321</color>
+    <color name="minecraft_gray">#808080</color>
+    <color name="minecraft_light_gray">#C0C0C0</color>
+    <color name="minecraft_dark_gray">#404040</color>
+    <color name="minecraft_black">#000000</color>
+    <color name="minecraft_white">#FFFFFF</color>
+    <color name="minecraft_red">#FF0000</color>
+    <color name="minecraft_blue">#0000FF</color>
+    <color name="minecraft_yellow">#FFFF00</color>
+    <color name="minecraft_orange">#FFA500</color>
+    
+    <!-- Material You Colors -->
+    <color name="primary">@color/minecraft_green</color>
+    <color name="on_primary">@color/minecraft_white</color>
+    <color name="primary_container">@color/minecraft_light_green</color>
+    <color name="on_primary_container">@color/minecraft_dark_green</color>
+    
+    <color name="secondary">@color/minecraft_brown</color>
+    <color name="on_secondary">@color/minecraft_white</color>
+    <color name="secondary_container">@color/minecraft_light_gray</color>
+    <color name="on_secondary_container">@color/minecraft_dark_brown</color>
+    
+    <color name="tertiary">@color/minecraft_orange</color>
+    <color name="on_tertiary">@color/minecraft_white</color>
+    <color name="tertiary_container">@color/minecraft_yellow</color>
+    <color name="on_tertiary_container">@color/minecraft_dark_brown</color>
+    
+    <color name="error">@color/minecraft_red</color>
+    <color name="on_error">@color/minecraft_white</color>
+    <color name="error_container">#FFB4AB</color>
+    <color name="on_error_container">#410002</color>
+    
+    <color name="background">@color/minecraft_white</color>
+    <color name="on_background">@color/minecraft_black</color>
+    <color name="surface">@color/minecraft_white</color>
+    <color name="on_surface">@color/minecraft_black</color>
+    <color name="surface_variant">@color/minecraft_light_gray</color>
+    <color name="on_surface_variant">@color/minecraft_dark_gray</color>
+    
+    <color name="outline">@color/minecraft_gray</color>
+    <color name="outline_variant">@color/minecraft_light_gray</color>
+    
+    <color name="inverse_on_surface">@color/minecraft_light_gray</color>
+    <color name="inverse_surface">@color/minecraft_dark_gray</color>
+    <color name="inverse_primary">@color/minecraft_light_green</color>
+    
+    <color name="shadow">@color/minecraft_black</color>
+    <color name="scrim">@color/minecraft_black</color>
+    
+    <!-- Status Bar Colors -->
+    <color name="status_bar_color">@color/minecraft_green</color>
+    <color name="navigation_bar_color">@color/minecraft_white</color>
+</resources>

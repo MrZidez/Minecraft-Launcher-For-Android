@@ -1,0 +1,18 @@
+[
+  {
+    "type": "single_account",
+    "client_id": "YOUR_CLIENT_ID_HERE",
+    "authorization_user_agent": "DEFAULT",
+    "redirect_uri": "msauth://com.minecraft.launcher/auth",
+    "account_mode": "SINGLE",
+    "broker_redirect_uri_registered": true,
+    "authorities": [
+      {
+        "type": "AAD",
+        "audience": {
+          "type": "AzureADandPersonalMicrosoftAccount"
+        }
+      }
+    ]
+  }
+]

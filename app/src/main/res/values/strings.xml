@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Minecraft Launcher</string>
+    
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Home Screen -->
+    <string name="microsoft_account">Microsoft account</string>
+    <string name="play">PLAY</string>
+    <string name="minecraft_java_edition">Minecraft Java Edition</string>
+    <string name="minecraft_bedrock_edition">Minecraft Bedrock Edition</string>
+    <string name="whats_new">What\'s New</string>
+    <string name="chase_the_skies">Chase the Skies</string>
+    <string name="search">SEARCH</string>
+    <string name="search_placeholder">What do you need?</string>
+    <string name="filters">FILTERS</string>
+    
+    <!-- Auth -->
+    <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="offline_account">Offline Account</string>
+    <string name="create_offline_account">Create Offline Account</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="account_created">Account created successfully</string>
+    
+    <!-- Settings -->
+    <string name="general">General</string>
+    <string name="account">Account</string>
+    <string name="launcher_settings">Launcher Settings</string>
+    <string name="theme">Theme</string>
+    <string name="system_default">System Default</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="java_memory">Java Memory</string>
+    <string name="java_path">Java Path</string>
+    <string name="game_directory">Game Directory</string>
+    <string name="about">About</string>
+    <string name="version">Version</string>
+    
+    <!-- Game Launch -->
+    <string name="launching">Launching…</string>
+    <string name="downloading">Downloading…</string>
+    <string name="installing">Installing…</string>
+    <string name="launch_failed">Launch failed</string>
+    <string name="download_failed">Download failed</string>
+    
+    <!-- Errors -->
+    <string name="error_network">Network error occurred</string>
+    <string name="error_auth">Authentication failed</string>
+    <string name="error_invalid_credentials">Invalid credentials</string>
+    <string name="error_username_taken">Username already taken</string>
+    <string name="error_passwords_dont_match">Passwords don\'t match</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="loading">Loading…</string>
+    <string name="retry">Retry</string>
+</resources>
